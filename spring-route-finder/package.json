@@ -1,0 +1,131 @@
+{
+  "name": "spring-route-finder",
+  "displayName": "Spring Route Finder",
+  "description": "Jump from an API path like api/v1/auth/login straight to the Spring Controller method that implements it.",
+  "version": "0.1.5",
+  "publisher": "LingCloud",
+  "icon": "images/icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lingcloud522/spring-route-finder.git"
+  },
+  "keywords": [
+    "spring",
+    "spring boot",
+    "java",
+    "controller",
+    "mapping",
+    "endpoint",
+    "route",
+    "navigation"
+  ],
+  "galleryBanner": {
+    "color": "#0F172A",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "springRouteFinder.findRoute",
+        "title": "Find Implementation by API Path",
+        "category": "Spring Route Finder"
+      },
+      {
+        "command": "springRouteFinder.findRouteFromSelection",
+        "title": "Find Implementation from Selection",
+        "category": "Spring Route Finder"
+      },
+      {
+        "command": "springRouteFinder.rebuildIndex",
+        "title": "Rebuild Route Index",
+        "category": "Spring Route Finder"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "springRouteFinder.findRoute",
+        "key": "ctrl+alt+j",
+        "mac": "cmd+alt+j"
+      },
+      {
+        "command": "springRouteFinder.findRouteFromSelection",
+        "key": "ctrl+alt+shift+j",
+        "mac": "cmd+alt+shift+j",
+        "when": "editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "Spring Route Finder",
+      "properties": {
+        "springRouteFinder.sourceRoots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/src/main/java"
+          ],
+          "description": "Glob patterns, relative to each workspace folder, to scan for Java sources. Keep the default for multi-module projects."
+        },
+        "springRouteFinder.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/target/**",
+            "**/build/**",
+            "**/out/**",
+            "**/node_modules/**",
+            "**/generated/**"
+          ],
+          "description": "Directories excluded from indexing."
+        },
+        "springRouteFinder.maxFiles": {
+          "type": "number",
+          "default": 20000,
+          "description": "Maximum number of Java files to index, keeping very large repositories responsive."
+        },
+        "springRouteFinder.maxFileSizeKb": {
+          "type": "number",
+          "default": 1024,
+          "description": "Per-file limit in KB. Larger files are skipped to keep the extension host responsive. Use 0 for no limit."
+        },
+        "springRouteFinder.maxTotalSizeMb": {
+          "type": "number",
+          "default": 256,
+          "description": "Total amount of source read per index run, in MB. Indexing stops after this. Use 0 for no limit."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node --test test/*.test.mjs",
+    "test:e2e": "npm run compile && node test/integration/runTest.mjs",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-electron": "^3.1.0",
+    "typescript": "^5.4.0"
+  }
+}
